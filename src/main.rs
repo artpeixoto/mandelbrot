@@ -134,6 +134,8 @@ fn save_image(img: &Image, file_name: &str) -> Result<(), Box<dyn Error>>{
 fn main(){
     const RESOLUTION: Resolution = Resolution{width: 1024*2*2*2, height: 1024*2*2*2};
     const LIMIT: EscapeLimit = 256;
+    let dest = "atlas/";
+    std::fs::create_dir_all(dest).unwrap();
 
     let rect_lin_num = 128;
 
