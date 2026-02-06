@@ -1,11 +1,5 @@
-use std::ascii::escape_default;
 use std::error::Error;
 use std::fs::File;
-use std::io::Read;
-use std::path::Path;
-use std::sync::mpsc;
-use std::thread;
-use std::thread::Thread;
 use image::codecs::png::PngEncoder;
 use image::{ColorType, ExtendedColorType, ImageEncoder};
 use num::{Complex, pow};
@@ -15,7 +9,7 @@ use rayon::prelude::*;
 type EscapeLimit = u16;
 
 fn calculate_escape_time(c: Complex<f32>, limit: EscapeLimit) -> Option<EscapeLimit>{
-    let mut z = Complex::<f32>{re: 0.0, im: 0.0};
+    let mut z = Complex::<f32> {re: 0.0, im: 0.0};
     for i in 0..limit{
         let norm_sqr = z.norm_sqr();
         if norm_sqr > 4.0{
@@ -28,6 +22,7 @@ fn calculate_escape_time(c: Complex<f32>, limit: EscapeLimit) -> Option<EscapeLi
     }
     None
 }
+
 
 fn make_lerp(input: &(f32, f32), output: &(f32, f32)) -> impl Fn(f32) -> f32 {
     let a = (output.1 - output.0) / (input.1 - input.0);
@@ -124,7 +119,7 @@ fn save_image(img: &Image, file_name: &str) -> Result<(), Box<dyn Error>>{
         &img.data,
         img.resolution.width,
         img.resolution.height,
-        ColorType::L8,
+        ColorType::L8.into(),
     )
     .expect("Error while trying to save this shit");
 
